@@ -23,4 +23,5 @@ def send_sms(to_number, body, filename):
                            body=body,
                            media_url=media_url)
 
-send_sms(4082503360, 'test', 'cat.jpg')
+yingda_num = 4082503360
+send_sms(yingda_num, 'test', 'cat.jpg')
