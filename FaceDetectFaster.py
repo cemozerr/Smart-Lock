@@ -54,9 +54,9 @@ def main():
     rawCapture = PiRGBArray(camera, size=(320, 240))
     stream = camera.capture_continuous(rawCapture, format="bgr",
             use_video_port=True)
+    faceDetected = False
 
     for (i,f) in enumerate(stream):
-        faceDetected = False
         frame = f.array
         frame = imutils.resize(frame, width=400)
 
@@ -70,27 +70,32 @@ def main():
             flags=cv2.cv.CV_HAAR_SCALE_IMAGE
         )
         
-        # Draw a rectangle around the faces
-        for (x, y, w, h) in faces:
-            faceDetected = True
-            cv2.rectangle(frame, (x, y), (x+w, y+h), (0, 255, 0), 2)
-        if not currentlyMonitoring and not faceDetected:
-            visitorEntered = True
-            if(sendTwilioMessage('Your visitor has entered the house. Would you like to resume home monitoring?')):
-                currentlyMonitoring = True
-        elif currentlyMonitoring:
+        # write image of detected face to uploads 
+        if not faceDetected:
+            for (x, y, w, h) in faces:
+                faceDetected = True
+                cv2.rectangle(frame, (x, y), (x+w, y+h), (0, 255, 0), 2)
             if faceDetected:
-                if(sendTwilioMessage('Here is a picture of your visitor, would you like to grant access?')):
-                    unlockDoor()
-                    break
-                    currentlyMonitoring = False
-                    visitorEntered = False
-                else:
-                    print('homeowner denied you access')
-            else:
-                GPIO.output(LEDPIN,False)
-        else:
-            print('Waiting for visitor to enter home')
+                imwrite("./uploads/curr.jpg", frame)
+            
+
+#        if not currentlyMonitoring and not faceDetected:
+#            visitorEntered = True
+#            if(sendTwilioMessage('Your visitor has entered the house. Would you like to resume home monitoring?')):
+#                currentlyMonitoring = True
+#        elif currentlyMonitoring:
+#            if faceDetected:
+#                if(sendTwilioMessage('Here is a picture of your visitor, would you like to grant access?')):
+#                    unlockDoor()
+#                    break
+#                    currentlyMonitoring = False
+#                    visitorEntered = False
+#                else:
+#                    print('homeowner denied you access')
+#            else:
+#                GPIO.output(LEDPIN,False)
+#        else:
+#            print('Waiting for visitor to enter home')
 
         # check to see if the frame should be displayed to our screen
         cv2.imshow("Frame", frame)
