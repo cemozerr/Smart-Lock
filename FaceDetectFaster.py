@@ -74,9 +74,10 @@ def main():
         if not faceDetected:
             for (x, y, w, h) in faces:
                 faceDetected = True
-                cv2.rectangle(frame, (x, y), (x+w, y+h), (0, 255, 0), 2)
+                #cv2.rectangle(frame, (x, y), (x+w, y+h), (0, 255, 0), 2)
             if faceDetected:
-                imwrite("./uploads/curr.jpg", frame)
+		print ("Saving face!")
+                cv2.imwrite("./uploads/curr.jpg", frame)
             
 
 #        if not currentlyMonitoring and not faceDetected:
