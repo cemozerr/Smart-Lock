@@ -22,6 +22,3 @@ def send_sms(to_number, body, filename):
                            from_=twilio_number,
                            body=body,
                            media_url=media_url)
-
-yingda_num = 4082503360
-send_sms(yingda_num, 'test', 'cat.jpg')

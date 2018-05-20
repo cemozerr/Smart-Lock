@@ -11,6 +11,7 @@ import cv2
 import sys
 import RPi.GPIO as GPIO
 from twilio.rest import Client
+from .sendText import send_sms
 
 LEDPIN = 17
 TWILIO_ACCOUNT_SID = 'AC75fd9d7e943b776c2c26bc3acb524aee'
@@ -78,6 +79,7 @@ def main():
             if faceDetected:
 		print ("Saving face!")
                 cv2.imwrite("./uploads/curr.jpg", frame)
+                send_sms(HOMEOWNER_NUMBER, 'test', 'curr.jpg')
             
 
 #        if not currentlyMonitoring and not faceDetected:
