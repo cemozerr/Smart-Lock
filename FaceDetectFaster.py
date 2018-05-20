@@ -12,7 +12,7 @@ import sys
 import RPi.GPIO as GPIO
 from twilio.rest import Client
 
-LEDPIN = 17
+LEDPIN = 2
 TWILIO_ACCOUNT_SID = 'AC75fd9d7e943b776c2c26bc3acb524aee'
 TWILIO_AUTH_TOKEN = '06c1c2b77aa4f5854ea6e04b9e7670f3'
 TWILIO_NUMBER = '+16305213064'
@@ -29,7 +29,7 @@ def send_sms(to_number, body):
 
 def sendTwilioMessage(message):
     print('sending twilio message:')
-    send_sms(HOMEOWNER_NUMBER, message)
+    #send_sms(HOMEOWNER_NUMBER, message)
 
     #if approved
     return True
@@ -76,17 +76,18 @@ def main():
             cv2.rectangle(frame, (x, y), (x+w, y+h), (0, 255, 0), 2)
         if not currentlyMonitoring and not faceDetected:
             visitorEntered = True
-            if(sendTwilioMessage('Your visitor has entered the house. Would you like to resume home monitoring?')):
-                currentlyMonitoring = True
+            #if(sendTwilioMessage('Your visitor has entered the house. Would you like to resume home monitoring?')):
+            #    currentlyMonitoring = True
         elif currentlyMonitoring:
             if faceDetected:
-                if(sendTwilioMessage('Here is a picture of your visitor, would you like to grant access?')):
-                    unlockDoor()
-                    break
-                    currentlyMonitoring = False
-                    visitorEntered = False
-                else:
-                    print('homeowner denied you access')
+                unlockDoor()
+                break
+                #if(sendTwilioMessage('Here is a picture of your visitor, would you like to grant access?')):
+                #    unlockDoor()
+                #    currentlyMonitoring = False
+                #    visitorEntered = False
+                #else:
+                #    print('homeowner denied you access')
             else:
                 GPIO.output(LEDPIN,False)
         else:
