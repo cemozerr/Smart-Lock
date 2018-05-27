@@ -17,6 +17,7 @@ def send_sms(to_number, body, filename):
     r = r.json()
     public_url = r['tunnels'][0]['public_url']
     media_url = public_url + '/uploads/' + filename
+    print(media_url)
 
     client.api.messages.create(to_number,
                            from_=twilio_number,
