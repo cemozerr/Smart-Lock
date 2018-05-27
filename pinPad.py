@@ -9,7 +9,7 @@ kp = RPi_GPIO.keypad()
 def unlockDoor():
     print('unlocking door...')
     GPIO.output(DOORPIN,True)
-    time.sleep(3)
+    time.sleep(5)
     print('locking door...')
     GPIO.output(DOORPIN,False)
 

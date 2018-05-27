@@ -1,7 +1,7 @@
 from flask import Flask, request, send_from_directory
 from twilio.twiml.messaging_response import Message, MessagingResponse
 import RPi.GPIO as GPIO
-
+import time
 
 app = Flask(__name__)
 LEDPIN = 2
@@ -9,6 +9,8 @@ LEDPIN = 2
 def unlockDoor():
     print('unlocking door...')
     GPIO.output(LEDPIN,True)
+    time.sleep(5)
+    GPIO.output(LEDPIN,False)
 
 def lockDoor():
     print("locking door...")

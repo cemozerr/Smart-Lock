@@ -24,6 +24,8 @@ PHOTO_NONCE = 0
 def unlockDoor():
     print('unlocking door...')
     GPIO.output(LEDPIN,True)
+    time.sleep(5)
+    GPIO.output(LEDPIN,False)
 
 def main():
     currentlyMonitoring = True
@@ -62,7 +64,7 @@ def main():
 		print ("Saving face!")
                 cv2.imwrite("./uploads/curr" + str(PHOTO_NONCE) +  ".jpg", frame)
 		time.sleep(2)
-                send_sms(HOMEOWNER_NUMBER, 'test', 'curr' + str(PHOTO_NONCE) + '.jpg')
+                send_sms(HOMEOWNER_NUMBER, 'Visitor Detected! Reply YES to open door, NO to keep door locked', 'curr' + str(PHOTO_NONCE) + '.jpg')
 		time.sleep(8)
 
 
